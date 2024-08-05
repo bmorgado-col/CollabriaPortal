@@ -1,0 +1,62 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+}
+
+.icon-container {
+    display: flex;
+    gap: 100px; /* Space between the icon blocks */
+    justify-content: center; /* Center the icons horizontally */
+    align-items: center; 
+}
+
+.icon-with-text {
+    text-align: center; /* Center the text under the icon */
+}
+
+    .icon-with-text p {
+        margin-top: 10px; /* Space between the icon and the text */
+        font-size: 16px; /* Adjust the font size as needed */
+    }
+
+
+.navbar-brand img {
+    max-width: 200px; /* This value allows you to change the size of the image in the header */
+    height: auto;
+    .icon-container
+}
+
+.footer-right {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.footer .container {
+    /* Remove default container padding to avoid unwanted spacing */
+    padding: 0;
+}
+
+
+.footer-left {
+    display: flex;
+    justify-content: flex-end;
+}
+
