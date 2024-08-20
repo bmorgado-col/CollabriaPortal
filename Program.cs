@@ -18,8 +18,8 @@ builder.Services.AddAuthorization(options =>
 {
     options.AddPolicy("TestBankPolicy", policy =>
         policy.RequireClaim("groups", "GROUP-ID-FOR-TEST-BANK"));
-    options.AddPolicy("devcuPolicy", policy =>
-        policy.RequireClaim("groups", "GROUP-ID-FOR-DEVCU"));
+    options.AddPolicy("alternaPolicy", policy =>
+        policy.RequireClaim("groups", "GROUP-ID-FOR-alterna"));
 
     // By default, all incoming requests will be authorized according to the default policy.
     options.FallbackPolicy = options.DefaultPolicy;
