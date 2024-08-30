@@ -15,7 +15,7 @@ public class IndexModel : PageModel
 
     public void OnGet()
     {
-        // Use the LinkService to get the appropriate links for the user
+         
         ConsumerLink = _linkService.GetConsumerLinkForUser(User);
         BusinessLink = _linkService.GetBusinessLinkForUser(User);
     }
