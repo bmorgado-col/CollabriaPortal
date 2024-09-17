@@ -35,14 +35,35 @@ public class AddUserModel : PageModel
 
     public void OnPost()
     {
-        
+        if (ModelState.IsValid)
+        {
+            string messageBody = $"New user added:\n\nFirst Name: {FirstName}\nLast Name: {LastName}\nEmail: {Email}\nBranch Location: {BranchLocation}";
+            SendEmail(messageBody);
+        }
 
-       
+
     }
 
     private void SendEmail(string messageBody)
     {
-       
+        var smtpClient = new SmtpClient("smtp.office365.com")
+        {
+            Port = 587,
+            Credentials = new NetworkCredential("brandon.morgado@collabriait.onmicrosoft.com", "password#"),
+            EnableSsl = true,
+        };
+
+        var mailMessage = new MailMessage
+        {
+            From = new MailAddress("brandon.morgado@collabriait.onmicrosoft.com"),
+            Subject = "New User Added",
+            Body = messageBody,
+            IsBodyHtml = false,
+        };
+
+        mailMessage.To.Add("recipient@example.com");
+
+        smtpClient.Send(mailMessage);
     }
 
 }
