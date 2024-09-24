@@ -6,7 +6,6 @@ using Microsoft.Identity.Web;
 using Microsoft.Identity.Web.UI;
 using CollabriaPortal.Services; // Make sure this matches the namespace in LinkService.cs
 
-
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -16,10 +15,10 @@ builder.Services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
 // Add authorization policies for group-based access
 builder.Services.AddAuthorization(options =>
 {
-    options.AddPolicy("TestBankPolicy", policy =>
-        policy.RequireClaim("groups", "GROUP-ID-FOR-TEST-BANK"));
+    options.AddPolicy("CollabriaAdminAccess", policy =>
+        policy.RequireClaim("groups", "d8c369a9-631d-4277-9889-59aea716b6fe")); // Use the actual group ID
     options.AddPolicy("alternaPolicy", policy =>
-        policy.RequireClaim("groups", "GROUP-ID-FOR-alterna"));
+        policy.RequireClaim("groups", "GROUP-ID-FOR-alterna")); // Replace with actual group ID if needed
 
     // By default, all incoming requests will be authorized according to the default policy.
     options.FallbackPolicy = options.DefaultPolicy;
@@ -54,3 +53,10 @@ app.MapRazorPages();
 app.MapControllers();
 
 app.Run();
+
+public class AzureAdOptions
+{
+    public string ClientId { get; set; }
+    public string TenantId { get; set; }
+    public string ClientSecret { get; set; }
+}

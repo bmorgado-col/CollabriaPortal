@@ -7,44 +7,61 @@
 <div class="text-center">
     <h1 class="display-4" style="margin-bottom: 50px;">Welcome to the Collabria Portal</h1>
 
-    @* <p><a href="@Model.ConsumerLink">Click here to access your consumer web form</a></p>
-    <p><a href="@Model.BusinessLink">Click here to access your business web form</a></p> *@
-
     <div class="icon-container">
-        <div class="icon-with-text">
-            <a href="@Model.ConsumerLink">
-                <img src="/images/users.png" alt="Consumer Form" width="100" height="100" />
-            </a>
-            <p>Consumer Form</p>
-        </div>
+        @* Check if the user is a member of the "CreditUnion-Admins" group *@
+        @if (User.Claims.Any(c => c.Type == "groups" && c.Value == "d8c369a9-631d-4277-9889-59aea716b6fe"))
+        {
+            <div class="icon-with-text">
+                <a href="@Model.ConsumerLink">
+                    <img src="/images/users.png" alt="Consumer Form" width="100" height="100" />
+                </a>
+                <p>Consumer Form</p>
+            </div>
 
-        <div class="icon-with-text">
-            <a href="@Model.BusinessLink">
-                <img src="/images/building.png" alt="Business Form" width="100" height="100" />
-            </a>
-            <p>Business Form</p>
-        </div>
+            <div class="icon-with-text">
+                <a href="@Model.BusinessLink">
+                    <img src="/images/building.png" alt="Business Form" width="100" height="100" />
+                </a>
+                <p>Business Form</p>
+            </div>
 
-        <div class="icon-with-text">
-            <a asp-page="/AddUser">
-                <img src="/images/AddUser.png" alt="Business Form" width="100" height="100" />
-            </a>
-            <p>Add User</p>
-        </div>
+            <div class="icon-with-text">
+                <a asp-page="/AddUser">
+                    <img src="/images/AddUser.png" alt="Add User" width="100" height="100" />
+                </a>
+                <p>Add User</p>
+            </div>
 
-        <div class="icon-with-text">
-            <a asp-page="/DeleteUser">
-                <img src="/images/RemoveUser.png" alt="Business Form" width="100" height="100" />
-            </a>
-            <p>Delete User</p>
-        </div>
+            <div class="icon-with-text">
+                <a asp-page="/DeleteUser">
+                    <img src="/images/RemoveUser.png" alt="Delete User" width="100" height="100" />
+                </a>
+                <p>Delete User</p>
+            </div>
 
-        <div class="icon-with-text">
-            <a href="https://mystaff.microsoft.com/">
-                <img src="/images/PasswordReset.png" alt="Business Form" width="100" height="100" />
-            </a>
-            <p>Reset Password</p>
-        </div>
+            <div class="icon-with-text">
+                <a href="https://mystaff.microsoft.com/">
+                    <img src="/images/PasswordReset.png" alt="Reset Password" width="100" height="100" />
+                </a>
+                <p>Reset Password</p>
+            </div>
+        }
+        else
+        {
+            @* Links for users who are not in the "test-bank" group *@
+            <div class="icon-with-text">
+                <a href="@Model.ConsumerLink">
+                    <img src="/images/users.png" alt="Consumer Form" width="100" height="100" />
+                </a>
+                <p>Consumer Form</p>
+            </div>
+
+            <div class="icon-with-text">
+                <a href="@Model.BusinessLink">
+                    <img src="/images/building.png" alt="Business Form" width="100" height="100" />
+                </a>
+                <p>Business Form</p>
+            </div>
+        }
     </div>
-
 </div>

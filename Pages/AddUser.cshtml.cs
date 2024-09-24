@@ -1,69 +1,100 @@
-using Microsoft.AspNetCore.Mvc;
+using Azure.Identity;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
+using Microsoft.Graph.Models;
+using Microsoft.Graph;
 using System.ComponentModel.DataAnnotations;
-using System.Net;
-using System.Net.Mail;
+using Microsoft.AspNetCore.Authorization;
 
 
+//Denies user page access if they are not part of the Credit Union Portal Admins group
+[Authorize(Policy = "CollabriaAdminAccess")]
 public class AddUserModel : PageModel
 {
+    private readonly AzureAdOptions _azureAdOptions;
 
-    
+    public AddUserModel(IOptions<AzureAdOptions> azureAdOptions)
+    {
+        _azureAdOptions = azureAdOptions.Value;
+    }
+
     [BindProperty]
     [Required]
     [Display(Name = "First Name")]
-    public string FirstName { get; set; }
+    public string? FirstName { get; set; }
 
     [BindProperty]
     [Required]
     [Display(Name = "Last Name")]
-    public string LastName { get; set; }
+    public string? LastName { get; set; }
 
     [BindProperty]
     [Required]
     [EmailAddress]
-    public string Email { get; set; }
+    public string? Email { get; set; }
 
     [BindProperty]
     [Required]
     [Display(Name = "Branch Location")]
-    public string BranchLocation { get; set; }
+    public string? BranchLocation { get; set; }
 
     public void OnGet()
     {
     }
 
-    public void OnPost()
+    public async Task<IActionResult> OnPostAsync()
     {
         if (ModelState.IsValid)
         {
             string messageBody = $"New user added:\n\nFirst Name: {FirstName}\nLast Name: {LastName}\nEmail: {Email}\nBranch Location: {BranchLocation}";
-            SendEmail(messageBody);
+            await SendEmailAsync(messageBody);
+            return RedirectToPage("Success"); // Redirect to a success page or show a success message
         }
 
-
+        return Page();
     }
 
-    private void SendEmail(string messageBody)
+    private async Task SendEmailAsync(string messageBody)
     {
-        var smtpClient = new SmtpClient("smtp.office365.com")
-        {
-            Port = 587,
-            Credentials = new NetworkCredential("brandon.morgado@collabriait.onmicrosoft.com", "password#"),
-            EnableSsl = true,
-        };
+ //       var clientSecretCredential = new ClientSecretCredential(
+ //    _azureAdOptions.TenantId,
+ //    _azureAdOptions.ClientId,
+ //    _azureAdOptions.ClientSecret
+ //);
 
-        var mailMessage = new MailMessage
-        {
-            From = new MailAddress("brandon.morgado@collabriait.onmicrosoft.com"),
-            Subject = "New User Added",
-            Body = messageBody,
-            IsBodyHtml = false,
-        };
+ //       var graphClient = new GraphServiceClient(clientSecretCredential);
 
-        mailMessage.To.Add("recipient@example.com");
+ //       var message = new Message
+ //       {
+ //           Subject = "New User Registration",
+ //           Body = new ItemBody
+ //           {
+ //               ContentType = BodyType.Text,
+ //               Content = messageBody
+ //           },
+ //           ToRecipients = new List<Recipient>
+ //       {
+ //           new Recipient
+ //           {
+ //               EmailAddress = new EmailAddress
+ //               {
+ //                   Address = "brandon.morgado@collabriait.onmicrosoft.com"
+ //               }
+ //           }
+ //       }
+ //       };
 
-        smtpClient.Send(mailMessage);
+ //       try
+ //       {
+ //           // Use the SendMail method on the GraphServiceClient
+ //           await graphClient.Me.SendMail(message, false).Request().PostAsync();
+ //       }
+ //       catch (ServiceException ex)
+ //       {
+ //           // Log the error or handle it as needed
+ //           Console.WriteLine($"Error sending email: {ex.Message}");
+ //           throw; // Optionally rethrow the exception
+ //       }
     }
-
 }
